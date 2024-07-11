@@ -6,6 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "test": "nyc mocha --require ts-node/register test/*.test.ts",
+    "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
