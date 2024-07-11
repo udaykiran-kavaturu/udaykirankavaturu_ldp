@@ -9,7 +9,7 @@ jobs:
   sonarcloud:
     defaults:
       run:
-        working-directory: ./seeder
+        working-directory: .
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
