@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './auth.public-decorator';
-import { Role } from 'src/enums/role.enum';
+import { Role } from '../enums/role.enum';
 import { Roles } from './roles.decorator';
-import { blacklistedTokens } from 'src/utils/blacklisted.tokens';
+import { blacklistedTokens } from '../utils/blacklisted.tokens';
 import { LoginDTO } from './dto';
 
 @Controller('auth')

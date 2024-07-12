@@ -9,7 +9,7 @@ import { JWTConstants } from './auth.constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.public-decorator';
-import { blacklistedTokens } from 'src/utils/blacklisted.tokens';
+import { blacklistedTokens } from '../utils/blacklisted.tokens';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
