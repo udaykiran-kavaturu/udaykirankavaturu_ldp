@@ -12,6 +12,7 @@ import { Public } from './auth.public-decorator';
 import { Role } from 'src/enums/role.enum';
 import { Roles } from './roles.decorator';
 import { blacklistedTokens } from 'src/utils/blacklisted.tokens';
+import { LoginDTO } from './dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,13 +21,13 @@ export class AuthController {
     @Public()
     @HttpCode(HttpStatus.OK)
     @Post('login')
-    signIn(@Body() signInDto: Record<string, any>) {
-        return this.authService.signIn(signInDto.username, signInDto.password);
+    logIn(@Body() loginDTO: LoginDTO) {
+        return this.authService.logIn(loginDTO.email, loginDTO.password);
     }
 
     @HttpCode(HttpStatus.OK)
     @Post('logout')
-    signOut(@Body() signInDto: Record<string, any>, @Request() req) {
+    logOut(@Request() req) {
         const { token } = req;
         blacklistedTokens.push(token);
         return { "message": "logged out" };
