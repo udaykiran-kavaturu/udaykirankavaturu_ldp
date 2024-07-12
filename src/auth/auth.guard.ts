@@ -9,6 +9,7 @@ import { jwtConstants } from './auth.constants';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './auth.public-decorator';
+import { blacklistedTokens } from 'src/utils/blacklisted.tokens';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -27,7 +28,12 @@ export class AuthGuard implements CanActivate {
 
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
+
         if (!token) {
+            throw new UnauthorizedException();
+        }
+
+        if (blacklistedTokens.includes(token)) {
             throw new UnauthorizedException();
         }
         try {
@@ -40,6 +46,7 @@ export class AuthGuard implements CanActivate {
             // 💡 We're assigning the payload to the request object here
             // so that we can access it in our route handlers
             request['user'] = payload;
+            request['token'] = token;
         } catch {
             throw new UnauthorizedException();
         }

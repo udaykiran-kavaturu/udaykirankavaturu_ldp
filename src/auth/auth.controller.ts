@@ -5,12 +5,13 @@ import {
     HttpCode,
     HttpStatus,
     Post,
-    Request,
-    UseGuards
+    Request
 } from '@nestjs/common';
-import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from './auth.public-decorator';
+import { Role } from 'src/enums/role.enum';
+import { Roles } from './roles.decorator';
+import { blacklistedTokens } from 'src/utils/blacklisted.tokens';
 
 @Controller('auth')
 export class AuthController {
@@ -23,7 +24,15 @@ export class AuthController {
         return this.authService.signIn(signInDto.username, signInDto.password);
     }
 
-    // @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post('logout')
+    signOut(@Body() signInDto: Record<string, any>, @Request() req) {
+        const { token } = req;
+        blacklistedTokens.push(token);
+        return { "message": "logged out" };
+    }
+
+    @Roles(Role.Admin)
     @Get('profile')
     getProfile(@Request() req) {
         return req.user;
