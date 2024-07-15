@@ -24,7 +24,7 @@ jobs:
         run: ls -R coverage
       - name: SonarCloud Scan
         with:
-          projectBaseDir: .
+          projectBaseDir: /home/runner/work/udaykirankavaturu_ldp/udaykirankavaturu_ldp
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
