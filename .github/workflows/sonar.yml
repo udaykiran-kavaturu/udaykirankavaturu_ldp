@@ -26,7 +26,7 @@ jobs:
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=${{ github.workspace }}/coverage/lcov.info
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
