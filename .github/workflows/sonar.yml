@@ -19,7 +19,7 @@ jobs:
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
       - name: Test and coverage
-        run: npm run coverage
+        run: npm run test:cov
       - name: List coverage directory
         run: ls -R coverage
       - name: SonarCloud Scan
