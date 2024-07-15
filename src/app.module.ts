@@ -7,6 +7,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ContractsModule } from './contracts/contracts.module';
+import { CashKicksModule } from './cash-kicks/cash-kicks.module';
+import { Contract } from './contracts/contract.entity';
+import { CashKick } from './cash-kicks/entities/cash-kick.entity';
+import { CashKickContract } from './cash-kicks/entities/cash-kick-contract.entity';
+import { PaymentSchedule } from './cash-kicks/entities/payment-schedule.entity';
 
 @Module({
   imports: [
@@ -22,7 +28,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Contract, CashKick, CashKickContract, PaymentSchedule],
         synchronize: false
       }),
       inject: [ConfigService],
@@ -30,7 +36,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
     ThrottlerModule.forRoot([{
       ttl: 60000,
       limit: 10,
-    }])
+    }]),
+    ContractsModule,
+    CashKicksModule
   ],
   controllers: [AppController],
   providers: [AppService],
