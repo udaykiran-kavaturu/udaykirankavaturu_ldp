@@ -31,6 +31,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Debug - Print working directory after SonarCloud
         run: pwd
+      - name: Debug - Print working directory items
+        run: ls -la
       - name: Debug - List coverage directory after SonarCloud
         run: ls -R coverage
   branchAnalysis: # to get the branch analysis on merge
