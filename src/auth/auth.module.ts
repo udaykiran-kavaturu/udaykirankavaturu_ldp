@@ -18,7 +18,8 @@ import { ThrottlerGuard } from '@nestjs/throttler';
       signOptions: { expiresIn: '10m' },
     }),
   ],
-  providers: [AuthService,
+  providers: [
+    AuthService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
@@ -29,11 +30,10 @@ import { ThrottlerGuard } from '@nestjs/throttler';
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
-
+      useClass: ThrottlerGuard,
+    },
   ],
   controllers: [AuthController],
   exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

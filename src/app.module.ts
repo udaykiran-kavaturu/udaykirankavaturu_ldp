@@ -29,18 +29,20 @@ import { PaymentSchedule } from './cash-kicks/entities/payment-schedule.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [User, Contract, CashKick, CashKickContract, PaymentSchedule],
-        synchronize: false
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
-    ThrottlerModule.forRoot([{
-      ttl: 60000,
-      limit: 10,
-    }]),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     ContractsModule,
-    CashKicksModule
+    CashKicksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
