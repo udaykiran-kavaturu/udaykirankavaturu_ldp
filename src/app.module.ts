@@ -8,7 +8,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ContractsModule } from './contracts/contracts.module';
 import { CashKicksModule } from './cash-kicks/cash-kicks.module';
-import { User, Contract, CashKick, CashKickContract, PaymentSchedule } from './entities';
+import {
+  User,
+  Contract,
+  CashKick,
+  CashKickContract,
+  PaymentSchedule,
+} from './entities';
 
 @Module({
   imports: [
@@ -41,4 +47,4 @@ import { User, Contract, CashKick, CashKickContract, PaymentSchedule } from './e
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

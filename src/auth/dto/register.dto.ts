@@ -8,7 +8,6 @@ import {
 } from 'class-validator';
 import { UserType } from '../../entities';
 
-
 export class RegisterDTO {
   @ApiProperty()
   @IsNotEmpty()

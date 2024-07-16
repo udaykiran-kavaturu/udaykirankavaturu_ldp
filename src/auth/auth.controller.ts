@@ -30,7 +30,7 @@ import { COMMON_SWAGGER_RESPONSES, AUTH_SWAGGER_RESPONSES } from '../swagger';
   example: COMMON_SWAGGER_RESPONSES.forbiddenResponse,
 })
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   @ApiCreatedResponse({ example: AUTH_SWAGGER_RESPONSES.register })
   @Public()
