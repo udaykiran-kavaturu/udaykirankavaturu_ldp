@@ -1,6 +1,6 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './utils/exception-handler';
 
@@ -8,7 +8,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const httpAdapter = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }),
+  );
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(new Reflector(), {}),
+  );
 
   const config = new DocumentBuilder()
     .setTitle('Seeder Application APIs')

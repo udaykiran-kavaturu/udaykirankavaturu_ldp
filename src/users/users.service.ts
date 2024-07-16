@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Request } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -9,7 +9,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async findOne(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { email } });
@@ -23,9 +23,21 @@ export class UsersService {
     return await this.usersRepository.save(newUser);
   }
 
-  async update(id: number, user: Partial<User>): Promise<User> {
+  async update(id: number, user: Partial<User>, @Request() req): Promise<User> {
+    const userDetails = await this.usersRepository.findOne({ where: { id } });
+    if (!userDetails)
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+
+    if (user.password) {
+      const salt = await bcrypt.genSalt(SALT_ROUNDS);
+      const hash = await bcrypt.hash(user.password, salt);
+      user.password = hash;
+    }
+
+    user.updated_by = req.user.sub;
+
     await this.usersRepository.update(id, user);
-    return this.usersRepository.findOne({ where: { id } });
+    return await this.usersRepository.findOne({ where: { id } });
   }
 
   async findAll(): Promise<User[]> {

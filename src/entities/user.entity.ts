@@ -1,5 +1,12 @@
 import { Exclude } from 'class-transformer';
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export enum UserType {
   LENDER = 'lender',
@@ -65,4 +72,29 @@ export class User {
   })
   @Exclude()
   password: string;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  created_by: number | null;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  updated_by: number | null;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 }
