@@ -6,7 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
-import { User } from '../../users/user.entity';
+import { User } from './user.entity';
 
 export enum CashKickStatus {
   PENDING = 'pending',

@@ -6,9 +6,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum } from 'class-validator';
-import { User } from '../../users/user.entity';
 import { CashKick } from './cash-kick.entity';
-import { Contract } from '../../contracts/contract.entity';
+import { Contract } from './contract.entity';
+import { User } from './user.entity';
+
 
 export enum CashKickContractStatus {
   PENDING = 'pending',
