@@ -11,7 +11,7 @@ import {
 export enum UserType {
   LENDER = 'lender',
   SEEKER = 'seeker',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 @Entity('user')

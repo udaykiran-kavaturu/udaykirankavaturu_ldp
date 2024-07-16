@@ -3,8 +3,6 @@ import {
   Controller,
   ForbiddenException,
   Get,
-  HttpException,
-  HttpStatus,
   ParseIntPipe,
   Patch,
   Query,
@@ -35,7 +33,7 @@ import { UserType } from 'src/entities';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) { }
+  constructor(private userService: UsersService) {}
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.patchUser })
