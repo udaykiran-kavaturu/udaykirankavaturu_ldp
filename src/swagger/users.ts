@@ -33,4 +33,11 @@ export const USER_SWAGGER_RESPONSES = {
     created_at: '2024-07-16T09:53:07.000Z',
     updated_at: '2024-07-16T10:21:57.000Z',
   },
+
+  userNotFound: {
+    "statusCode": 404,
+    "message": "user not found",
+    "timestamp": "2024-07-16T11:20:50.749Z",
+    "path": "/users?id=60"
+  }
 };

@@ -3,9 +3,10 @@ export const COMMON_SWAGGER_RESPONSES = {
     message: 'ok',
   },
   apiBadRequestResponse: {
-    message: 'Something went wrong',
-    error: 'server error',
-    statusCode: 400,
+    "statusCode": 400,
+    "message": "server error message",
+    "timestamp": "2024-07-16T11:25:06.409Z",
+    "path": "/users?id=60"
   },
   forbiddenResponse: {
     message: 'Unauthorized',

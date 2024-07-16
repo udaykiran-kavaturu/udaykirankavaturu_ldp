@@ -3,6 +3,8 @@ import {
   Controller,
   ForbiddenException,
   Get,
+  HttpException,
+  HttpStatus,
   ParseIntPipe,
   Patch,
   Query,
@@ -18,8 +20,10 @@ import {
   ApiForbiddenResponse,
   ApiBearerAuth,
   ApiOkResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from 'src/swagger';
+import { UserType } from 'src/entities';
 
 @ApiTags('users')
 @ApiBadRequestResponse({
@@ -31,10 +35,11 @@ import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from 'src/swagger';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UsersService) { }
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.patchUser })
+  @ApiNotFoundResponse({ example: USER_SWAGGER_RESPONSES.userNotFound })
   @Patch()
   async updateUser(
     @Query('id', ParseIntPipe) id: number,
@@ -42,7 +47,7 @@ export class UsersController {
     @GetUser() currentUser: any,
     @Request() req,
   ) {
-    if (currentUser.sub !== id) {
+    if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
       throw new ForbiddenException('You can only update your own profile');
     }
 
@@ -51,12 +56,13 @@ export class UsersController {
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.getUser })
+  @ApiNotFoundResponse({ example: USER_SWAGGER_RESPONSES.userNotFound })
   @Get()
   async getUser(
     @Query('id', ParseIntPipe) id: number,
     @GetUser() currentUser: any,
   ) {
-    if (currentUser.sub !== id) {
+    if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
       throw new ForbiddenException('You can only view your own profile');
     }
     return await this.userService.findOneByID(id);
