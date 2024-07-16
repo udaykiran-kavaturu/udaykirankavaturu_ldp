@@ -17,7 +17,7 @@ import {
   ApiUnauthorizedResponse,
   ApiForbiddenResponse,
   ApiBearerAuth,
-  ApiOkResponse,
+  ApiOkResponse
 } from '@nestjs/swagger';
 import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from 'src/swagger';
 
@@ -31,7 +31,7 @@ import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from 'src/swagger';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private userService: UsersService) { }
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.patchUser })
@@ -52,10 +52,7 @@ export class UsersController {
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.getUser })
   @Get()
-  async getUser(
-    @Query('id', ParseIntPipe) id: number,
-    @GetUser() currentUser: any,
-  ) {
+  async getUser(@Query('id', ParseIntPipe) id: number, @GetUser() currentUser: any) {
     if (currentUser.sub !== id) {
       throw new ForbiddenException('You can only view your own profile');
     }
