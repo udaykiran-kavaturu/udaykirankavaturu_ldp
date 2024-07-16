@@ -5,14 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ContractsModule } from './contracts/contracts.module';
 import { CashKicksModule } from './cash-kicks/cash-kicks.module';
-import { Contract } from './contracts/contract.entity';
-import { CashKick } from './cash-kicks/entities/cash-kick.entity';
-import { CashKickContract } from './cash-kicks/entities/cash-kick-contract.entity';
-import { PaymentSchedule } from './cash-kicks/entities/payment-schedule.entity';
+import { User, Contract, CashKick, CashKickContract, PaymentSchedule } from './entities';
 
 @Module({
   imports: [
@@ -45,4 +41,4 @@ import { PaymentSchedule } from './cash-kicks/entities/payment-schedule.entity';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -6,7 +6,8 @@ import {
   IsStrongPassword,
   Matches,
 } from 'class-validator';
-import { UserType } from 'src/users/user.entity';
+import { UserType } from '../../entities';
+
 
 export class RegisterDTO {
   @ApiProperty()
