@@ -10,7 +10,6 @@ import { CashKick } from './cash-kick.entity';
 import { Contract } from './contract.entity';
 import { User } from './user.entity';
 
-
 export enum PaymentScheduleStatus {
   PENDING = 'pending',
   PAID = 'paid',
