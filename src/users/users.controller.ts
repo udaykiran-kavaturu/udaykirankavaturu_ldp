@@ -28,12 +28,12 @@ import { UserType } from 'src/entities';
   example: COMMON_SWAGGER_RESPONSES.apiBadRequestResponse,
 })
 @ApiUnauthorizedResponse({
-  example: COMMON_SWAGGER_RESPONSES.forbiddenResponse,
+  example: COMMON_SWAGGER_RESPONSES.unAuthorized,
 })
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.patchUser })
@@ -49,7 +49,7 @@ export class UsersController {
       throw new ForbiddenException('You can only update your own profile');
     }
 
-    return await this.userService.update(id, updateUserDTO, req);
+    return await this.usersService.update(id, updateUserDTO, req);
   }
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
@@ -63,6 +63,6 @@ export class UsersController {
     if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
       throw new ForbiddenException('You can only view your own profile');
     }
-    return await this.userService.findOneByID(id);
+    return await this.usersService.findOneByID(id);
   }
 }

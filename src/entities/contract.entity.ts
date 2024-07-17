@@ -4,8 +4,10 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate, IsOptional, Max } from 'class-validator';
 import { User } from '../entities/user.entity';
 
 export enum ContractType {
@@ -17,9 +19,11 @@ export class Contract {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { nullable: false })
-  @JoinColumn({ name: 'lender_id' })
-  lender: User;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  lender_id: number | null;
 
   @Column({
     type: 'varchar',
@@ -68,9 +72,36 @@ export class Contract {
   status: number;
 
   @Column({
-    type: 'date',
+    type: 'int',
     nullable: true,
   })
-  @IsDate()
-  scheduled_due_date: Date;
+  @IsNumber()
+  @Min(1)
+  @Max(31)
+  scheduled_due_date: number;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  created_by: number | null;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  updated_by: number | null;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 }

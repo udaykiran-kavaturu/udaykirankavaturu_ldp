@@ -25,10 +25,10 @@ import { COMMON_SWAGGER_RESPONSES, AUTH_SWAGGER_RESPONSES } from '../swagger';
   example: COMMON_SWAGGER_RESPONSES.apiBadRequestResponse,
 })
 @ApiUnauthorizedResponse({
-  example: COMMON_SWAGGER_RESPONSES.forbiddenResponse,
+  example: COMMON_SWAGGER_RESPONSES.unAuthorized,
 })
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @ApiCreatedResponse({ example: AUTH_SWAGGER_RESPONSES.register })
   @Public()
@@ -55,10 +55,4 @@ export class AuthController {
     blacklistedTokens.push(token);
     return { message: 'logged out' };
   }
-
-  // @Roles(Role.Admin)
-  // @Get('profile')
-  // getProfile(@Request() req) {
-  //     return req.user;
-  // }
 }
