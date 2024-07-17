@@ -2,13 +2,10 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate, IsOptional, Max } from 'class-validator';
-import { User } from '../entities/user.entity';
+import { IsNotEmpty, IsEnum, IsNumber, Min, Max } from 'class-validator';
 
 export enum ContractType {
   MONTHLY = 'monthly',

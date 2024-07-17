@@ -13,9 +13,9 @@ export const COMMON_SWAGGER_RESPONSES = {
     statusCode: 401,
   },
   forbidden: {
-    "statusCode": 403,
-    "message": "Forbidden resource",
-    "timestamp": "2024-07-17T06:12:03.094Z",
-    "path": "/contracts"
-  }
+    statusCode: 403,
+    message: 'Forbidden resource',
+    timestamp: '2024-07-17T06:12:03.094Z',
+    path: '/contracts',
+  },
 };
