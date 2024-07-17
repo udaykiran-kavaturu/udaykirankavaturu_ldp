@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   ParseIntPipe,
   Patch,
   Post,
@@ -19,6 +20,7 @@ import {
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { COMMON_SWAGGER_RESPONSES } from 'src/swagger';
 import { CONTRACTS_SWAGGER_RESPONSES } from 'src/swagger/contracts';
@@ -70,5 +72,35 @@ export class ContractsController {
       currentUserID,
       currentUserType,
     );
+  }
+
+  @ApiOkResponse({ example: CONTRACTS_SWAGGER_RESPONSES.getContracts })
+  @ApiQuery({ name: 'id', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Get()
+  async getContracts(
+    @Query('id') id?: number,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Request() req?,
+  ) {
+    const currentUserID = req.user.sub;
+    const currentUserType = req.user.type;
+
+    if (id) {
+      return await this.contractsService.getContractById(
+        id,
+        currentUserID,
+        currentUserType,
+      );
+    } else {
+      return await this.contractsService.getAllContracts(
+        page,
+        limit,
+        currentUserID,
+        currentUserType,
+      );
+    }
   }
 }

@@ -46,7 +46,7 @@ export class UsersController {
     @Request() req,
   ) {
     if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
-      throw new ForbiddenException('You can only update your own profile');
+      throw new ForbiddenException('you can only update your own profile');
     }
 
     return await this.usersService.update(id, updateUserDTO, req);
@@ -61,7 +61,7 @@ export class UsersController {
     @GetUser() currentUser: any,
   ) {
     if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
-      throw new ForbiddenException('You can only view your own profile');
+      throw new ForbiddenException('you can only view your own profile');
     }
     return await this.usersService.findOneByID(id);
   }
