@@ -4,6 +4,8 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
 import { CashKick } from './cash-kick.entity';
@@ -64,4 +66,29 @@ export class PaymentSchedule {
   @IsEnum(PaymentScheduleStatus)
   @IsNotEmpty()
   status: PaymentScheduleStatus;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  created_by: number | null;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  updated_by: number | null;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 }

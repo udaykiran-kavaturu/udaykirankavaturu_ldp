@@ -4,6 +4,8 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
 import { User } from './user.entity';
@@ -19,9 +21,11 @@ export class CashKick {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { nullable: false })
-  @JoinColumn({ name: 'seeker_id' })
-  seeker: User;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  seeker_id: number | null;
 
   @Column({
     type: 'varchar',
@@ -66,4 +70,29 @@ export class CashKick {
   @IsEnum(CashKickStatus)
   @IsNotEmpty()
   status: CashKickStatus;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  created_by: number | null;
+
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  updated_by: number | null;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
+  })
+  updated_at: Date;
 }
