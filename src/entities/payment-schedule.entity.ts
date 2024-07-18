@@ -2,15 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
 import { CashKick } from './cash-kick.entity';
-import { Contract } from './contract.entity';
-import { User } from './user.entity';
 
 export enum PaymentScheduleStatus {
   PENDING = 'pending',
@@ -23,21 +19,29 @@ export class PaymentSchedule {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, { nullable: true })
-  @JoinColumn({ name: 'lender_id' })
-  lender: User;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  lender_id: number | null;
 
-  @ManyToOne(() => User, { nullable: true })
-  @JoinColumn({ name: 'seeker_id' })
-  seeker: User;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  seeker_id: number | null;
 
-  @ManyToOne(() => CashKick, { nullable: true })
-  @JoinColumn({ name: 'cash_kick_id' })
-  cashKick: CashKick;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  cash_kick_id: CashKick | null | number;
 
-  @ManyToOne(() => Contract, { nullable: true })
-  @JoinColumn({ name: 'contract_id' })
-  contract: Contract;
+  @Column({
+    type: 'int',
+    nullable: true,
+  })
+  contract_id: number | null;
 
   @Column({
     type: 'decimal',

@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Request } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post, Request } from '@nestjs/common';
 import { CashKicksService } from './cash-kicks.service';
-import { CreateCashKickDTO } from './dto';
+import { CreateCashKickDTO, UpdateCashKickContractDTO } from './dto';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -8,6 +8,7 @@ import {
   ApiForbiddenResponse,
   ApiBearerAuth,
   ApiOkResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import {
   CASH_KICKS_SWAGGER_RESPONSES,
@@ -40,6 +41,27 @@ export class CashKicksController {
     return await this.cashKicksService.createCashKick(
       createCashKickDTO,
       currentUserID,
+    );
+  }
+
+  @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.updated })
+  @ApiNotFoundResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.notFound })
+  @Patch(':cashKickId/cash-kick-contracts/:cashKickContractId')
+  @Roles(UserType.ADMIN, UserType.LENDER)
+  async updateCashKickContract(
+    @Param('cashKickId') cashKickId: number,
+    @Param('cashKickContractId') cashKickContractId: number,
+    @Body() updateCashKickContractDTO: UpdateCashKickContractDTO,
+    @Request() req,
+  ) {
+    const currentUserID = req.user.sub;
+    const currentUserType = req.user.type;
+    return await this.cashKicksService.updateCashKickContract(
+      cashKickId,
+      cashKickContractId,
+      updateCashKickContractDTO,
+      currentUserID,
+      currentUserType,
     );
   }
 }
