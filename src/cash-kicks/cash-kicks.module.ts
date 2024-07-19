@@ -7,6 +7,7 @@ import {
   CashKickContract,
   Contract,
   PaymentSchedule,
+  User,
 } from 'src/entities';
 
 @Module({
@@ -16,9 +17,10 @@ import {
       CashKick,
       CashKickContract,
       PaymentSchedule,
+      User
     ]),
   ],
   controllers: [CashKicksController],
   providers: [CashKicksService],
 })
-export class CashKicksModule {}
+export class CashKicksModule { }

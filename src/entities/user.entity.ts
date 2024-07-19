@@ -46,7 +46,7 @@ export class User {
     precision: 10,
     scale: 2,
     nullable: true,
-    default: 0,
+    default: 100000,
   })
   credit_limit: number | null;
 
@@ -55,7 +55,7 @@ export class User {
     precision: 10,
     scale: 2,
     nullable: true,
-    default: 0,
+    default: 100000,
   })
   credit_balance: number | null;
 
