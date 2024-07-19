@@ -14,7 +14,11 @@ import {
   PaymentSchedule,
   UserType,
 } from 'src/entities';
-import { CreateCashKickDTO, UpdateCashKickContractDTO } from './dto';
+import {
+  CreateCashKickDTO,
+  UpdateCashKickContractDTO,
+  UpdateScheduleDTO,
+} from './dto';
 
 @Injectable()
 export class CashKicksService {
@@ -100,7 +104,7 @@ export class CashKicksService {
 
   async updateCashKickContract(
     cashKickId: number,
-    cashKickContractId: number,
+    contractId: number,
     updateCashKickContractDTO: UpdateCashKickContractDTO,
     currentUserID: number,
     currentUserType: UserType,
@@ -115,7 +119,7 @@ export class CashKicksService {
         {
           where: {
             cash_kick_id: { id: cashKickId },
-            contract_id: cashKickContractId,
+            contract_id: contractId,
           },
         },
       );
@@ -144,7 +148,7 @@ export class CashKicksService {
 
       await queryRunner.manager.update(
         CashKickContract,
-        { cash_kick_id: { id: cashKickId }, contract_id: cashKickContractId },
+        { cash_kick_id: { id: cashKickId }, contract_id: contractId },
         { status: updateCashKickContractDTO.status, updated_by: currentUserID },
       );
 
@@ -179,7 +183,7 @@ export class CashKicksService {
       return await this.cashKickContractsRepository.findOne({
         where: {
           cash_kick_id: { id: cashKickId },
-          contract_id: cashKickContractId,
+          contract_id: contractId,
         },
       });
     } catch (error) {
@@ -190,5 +194,50 @@ export class CashKicksService {
       // Release query runner
       await queryRunner.release();
     }
+  }
+
+  async updateSchedule(
+    cashKickId: number,
+    contractId: number,
+    scheduleId: number,
+    updateScheduleDTO: UpdateScheduleDTO,
+    currentUserID: number,
+    currentUserType: UserType,
+  ) {
+    const schedule = await this.paymentScheduleRepository.findOne({
+      where: {
+        id: scheduleId,
+        cash_kick_id: cashKickId,
+        contract_id: contractId,
+      },
+    });
+
+    if (!schedule) {
+      throw new HttpException('schedule entry not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (
+      schedule.seeker_id != currentUserID &&
+      currentUserType != UserType.ADMIN
+    ) {
+      throw new ForbiddenException(
+        'you can only view or update your own schedule entries',
+      );
+    }
+
+    if (schedule.status == updateScheduleDTO.status) {
+      throw new HttpException(
+        'schedule entry is already in given status',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.paymentScheduleRepository.update(
+      { id: scheduleId },
+      { status: updateScheduleDTO.status },
+    );
+    return await this.paymentScheduleRepository.findOne({
+      where: { id: scheduleId },
+    });
   }
 }

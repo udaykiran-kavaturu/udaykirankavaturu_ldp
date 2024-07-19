@@ -40,4 +40,26 @@ export const CASH_KICKS_SWAGGER_RESPONSES = {
     timestamp: '2024-07-18T11:32:28.400Z',
     path: '/cash-kicks/60/cash-kick-contracts/3',
   },
+
+  scheduleUpdated: {
+    id: 145,
+    lender_id: 6,
+    seeker_id: 19,
+    cash_kick_id: 6,
+    contract_id: 3,
+    amount: '833.35',
+    due_date: '2024-08-01',
+    status: 'paid',
+    created_by: 6,
+    updated_by: 6,
+    created_at: '2024-07-18T11:28:56.000Z',
+    updated_at: '2024-07-19T05:29:05.000Z',
+  },
+
+  scheduleNotFound: {
+    statusCode: 404,
+    message: 'schedule entry not found',
+    timestamp: '2024-07-19T05:29:20.858Z',
+    path: '/cash-kicks/6/cash-kick-contracts/3/schedule/1459',
+  },
 };

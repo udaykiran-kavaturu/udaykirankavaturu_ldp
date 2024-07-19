@@ -1,6 +1,10 @@
 import { Body, Controller, Param, Patch, Post, Request } from '@nestjs/common';
 import { CashKicksService } from './cash-kicks.service';
-import { CreateCashKickDTO, UpdateCashKickContractDTO } from './dto';
+import {
+  CreateCashKickDTO,
+  UpdateCashKickContractDTO,
+  UpdateScheduleDTO,
+} from './dto';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -46,11 +50,11 @@ export class CashKicksController {
 
   @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.updated })
   @ApiNotFoundResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.notFound })
-  @Patch(':cashKickId/cash-kick-contracts/:cashKickContractId')
+  @Patch(':cashKickId/cash-kick-contracts/:contractId')
   @Roles(UserType.ADMIN, UserType.LENDER)
   async updateCashKickContract(
     @Param('cashKickId') cashKickId: number,
-    @Param('cashKickContractId') cashKickContractId: number,
+    @Param('contractId') contractId: number,
     @Body() updateCashKickContractDTO: UpdateCashKickContractDTO,
     @Request() req,
   ) {
@@ -58,8 +62,33 @@ export class CashKicksController {
     const currentUserType = req.user.type;
     return await this.cashKicksService.updateCashKickContract(
       cashKickId,
-      cashKickContractId,
+      contractId,
       updateCashKickContractDTO,
+      currentUserID,
+      currentUserType,
+    );
+  }
+
+  @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.scheduleUpdated })
+  @ApiNotFoundResponse({
+    example: CASH_KICKS_SWAGGER_RESPONSES.scheduleNotFound,
+  })
+  @Patch(':cashKickId/cash-kick-contracts/:contractId/schedule/:scheduleId')
+  @Roles(UserType.ADMIN, UserType.SEEKER)
+  async updateSchedule(
+    @Param('cashKickId') cashKickId: number,
+    @Param('contractId') contractId: number,
+    @Param('scheduleId') scheduleId: number,
+    @Body() updateScheduleDTO: UpdateScheduleDTO,
+    @Request() req,
+  ) {
+    const currentUserID = req.user.sub;
+    const currentUserType = req.user.type;
+    return await this.cashKicksService.updateSchedule(
+      cashKickId,
+      contractId,
+      scheduleId,
+      updateScheduleDTO,
       currentUserID,
       currentUserType,
     );
