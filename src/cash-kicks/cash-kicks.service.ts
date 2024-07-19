@@ -19,6 +19,7 @@ import {
   UpdateCashKickContractDTO,
   UpdateScheduleDTO,
 } from './dto';
+import { max } from 'class-validator';
 
 @Injectable()
 export class CashKicksService {
@@ -36,7 +37,7 @@ export class CashKicksService {
     private paymentScheduleRepository: Repository<PaymentSchedule>,
 
     private dataSource: DataSource,
-  ) {}
+  ) { }
 
   async createCashKick(
     createCashKickDTO: CreateCashKickDTO,
@@ -146,6 +147,7 @@ export class CashKicksService {
         );
       }
 
+      // update cash kick contract status
       await queryRunner.manager.update(
         CashKickContract,
         { cash_kick_id: { id: cashKickId }, contract_id: contractId },
@@ -175,6 +177,14 @@ export class CashKicksService {
 
           await queryRunner.manager.save(PaymentSchedule, schedule);
         }
+
+        // update maturity date for the cash kick
+        const schedule = await this.paymentScheduleRepository.createQueryBuilder('schedule')
+          .where({ cash_kick_id: cashKickId })
+          .select("MAX(schedule.due_date)", "maxDate")
+          .getRawOne();
+
+        await queryRunner.manager.update(CashKick, { id: cashKickId }, { maturity_date: schedule.maxDate });
       }
 
       // If all operations succeed, commit the transaction
