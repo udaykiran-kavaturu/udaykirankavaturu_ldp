@@ -15,6 +15,7 @@ import {
   CashKickContract,
   PaymentSchedule,
 } from './entities';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import {
     ]),
     ContractsModule,
     CashKicksModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],
