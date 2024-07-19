@@ -41,7 +41,7 @@ export class CashKicksService {
     private userRepository: Repository<User>,
 
     private dataSource: DataSource,
-  ) { }
+  ) {}
 
   async createCashKick(
     createCashKickDTO: CreateCashKickDTO,
@@ -71,9 +71,14 @@ export class CashKicksService {
         return accumulator + parseFloat(contract.amount.toString());
       }, 0);
 
-      const userDetails = await this.userRepository.findOne({ where: { id: currentUserID } });
+      const userDetails = await this.userRepository.findOne({
+        where: { id: currentUserID },
+      });
       if (userDetails.credit_balance < cashKick.total_financed) {
-        throw new HttpException("insufficient credit balance", HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          'insufficient credit balance',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
       const createdCashKick = await queryRunner.manager.save(
@@ -164,7 +169,6 @@ export class CashKicksService {
       );
 
       if (updateCashKickContractDTO.status == CashKickContractStatus.ACTIVE) {
-
         const nextDueDate = new Date();
         nextDueDate.setDate(contract.scheduled_due_date);
 
@@ -198,15 +202,24 @@ export class CashKicksService {
         await queryRunner.manager.update(
           CashKick,
           { id: cashKickId },
-          { maturity_date: schedule.maxDate, status: CashKickStatus.ACTIVE, updated_by: currentUserID },
+          {
+            maturity_date: schedule.maxDate,
+            status: CashKickStatus.ACTIVE,
+            updated_by: currentUserID,
+          },
         );
 
-        const userDetails = await this.userRepository.findOne({ where: { id: cashKickContract.seeker_id } });
+        const userDetails = await this.userRepository.findOne({
+          where: { id: cashKickContract.seeker_id },
+        });
         const newBalance = userDetails.credit_balance - contract.amount;
 
         // reduce amount from seeker balance
-        await queryRunner.manager.update(User, { id: cashKickContract.seeker_id }, { credit_balance: newBalance, updated_by: currentUserID });
-
+        await queryRunner.manager.update(
+          User,
+          { id: cashKickContract.seeker_id },
+          { credit_balance: newBalance, updated_by: currentUserID },
+        );
       }
 
       // If all operations succeed, commit the transaction

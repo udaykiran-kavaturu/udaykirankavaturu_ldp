@@ -17,10 +17,10 @@ import {
       CashKick,
       CashKickContract,
       PaymentSchedule,
-      User
+      User,
     ]),
   ],
   controllers: [CashKicksController],
   providers: [CashKicksService],
 })
-export class CashKicksModule { }
+export class CashKicksModule {}
