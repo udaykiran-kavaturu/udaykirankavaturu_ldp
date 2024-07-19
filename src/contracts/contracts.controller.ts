@@ -75,6 +75,10 @@ export class ContractsController {
   }
 
   @ApiOkResponse({ example: CONTRACTS_SWAGGER_RESPONSES.getContracts })
+  @ApiNotFoundResponse({
+    example: CONTRACTS_SWAGGER_RESPONSES.contractNotFound,
+  })
+  @ApiForbiddenResponse({ example: CONTRACTS_SWAGGER_RESPONSES.forbidden })
   @ApiQuery({ name: 'id', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })

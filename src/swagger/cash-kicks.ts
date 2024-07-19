@@ -62,4 +62,59 @@ export const CASH_KICKS_SWAGGER_RESPONSES = {
     timestamp: '2024-07-19T05:29:20.858Z',
     path: '/cash-kicks/6/cash-kick-contracts/3/schedule/1459',
   },
+
+  forbidden: {
+    statusCode: 403,
+    message: 'you can only view or update your own cash kick',
+    timestamp: '2024-07-19T07:02:14.514Z',
+    path: '/cash-kicks?id=3',
+  },
+
+  cashKickNotFound: {
+    statusCode: 404,
+    message: 'cash kick not found',
+    timestamp: '2024-07-19T07:02:48.924Z',
+    path: '/cash-kicks?id=39',
+  },
+
+  getCashKicks: {
+    description: 'Any one of the below two responses are possible',
+    getAllCashKicks: {
+      data: [
+        {
+          id: 4,
+          seeker_id: 19,
+          name: 'cask kick one',
+          maturity_date: null,
+          total_financed: '0.00',
+          total_received: '0.00',
+          status: 'pending',
+          created_by: 19,
+          updated_by: null,
+          created_at: '2024-07-18T06:43:42.000Z',
+          updated_at: '2024-07-18T06:43:42.000Z',
+        },
+      ],
+      meta: {
+        total: 14,
+        page: '1',
+        limit: '20',
+        totalPages: 1,
+      },
+    },
+
+    getCashKickByID: {
+      id: 4,
+      seeker_id: 19,
+      name: 'cask kick one',
+      maturity_date: null,
+      total_financed: '0.00',
+      total_received: '0.00',
+      status: 'pending',
+      created_by: 19,
+      updated_by: null,
+      created_at: '2024-07-18T06:43:42.000Z',
+      updated_at: '2024-07-18T06:43:42.000Z',
+    },
+  },
 };

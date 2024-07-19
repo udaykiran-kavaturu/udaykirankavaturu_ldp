@@ -254,4 +254,56 @@ export class CashKicksService {
       where: { id: scheduleId },
     });
   }
+
+  async getCashKickById(
+    id: number,
+    currentUserID: number,
+    currentUserType: UserType,
+  ) {
+    const cashKick = await this.cashKicksRepository.findOne({
+      where: { id },
+    });
+    if (!cashKick)
+      throw new HttpException('cash kick not found', HttpStatus.NOT_FOUND);
+
+    if (
+      cashKick.seeker_id != currentUserID &&
+      currentUserType != UserType.ADMIN
+    )
+      throw new ForbiddenException(
+        'you can only view or update your own cash kick',
+      );
+
+    return cashKick;
+  }
+
+  async getAllCashKicks(
+    page: number = 1,
+    limit: number = 10,
+    currentUserID: number,
+    currentUserType: UserType,
+  ) {
+    const skip = (page - 1) * limit;
+
+    const [cashKicks, total] = await this.cashKicksRepository.findAndCount({
+      skip: skip,
+      take: limit,
+      where: {
+        seeker_id: currentUserType == UserType.SEEKER ? currentUserID : null,
+      },
+    });
+
+    if (total == 0)
+      throw new HttpException('no cash kicks found', HttpStatus.NOT_FOUND);
+
+    return {
+      data: cashKicks,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
 }

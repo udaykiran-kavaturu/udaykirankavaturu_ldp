@@ -1,4 +1,13 @@
-import { Body, Controller, Param, Patch, Post, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { CashKicksService } from './cash-kicks.service';
 import {
   CreateCashKickDTO,
@@ -13,6 +22,7 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiNotFoundResponse,
+  ApiQuery,
 } from '@nestjs/swagger';
 import {
   CASH_KICKS_SWAGGER_RESPONSES,
@@ -92,5 +102,40 @@ export class CashKicksController {
       currentUserID,
       currentUserType,
     );
+  }
+
+  @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.getCashKicks })
+  @ApiForbiddenResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.forbidden })
+  @ApiNotFoundResponse({
+    example: CASH_KICKS_SWAGGER_RESPONSES.cashKickNotFound,
+  })
+  @ApiQuery({ name: 'id', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @Roles(UserType.ADMIN, UserType.SEEKER)
+  @Get()
+  async getCashKicks(
+    @Query('id') id?: number,
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+    @Request() req?,
+  ) {
+    const currentUserID = req.user.sub;
+    const currentUserType = req.user.type;
+
+    if (id) {
+      return await this.cashKicksService.getCashKickById(
+        id,
+        currentUserID,
+        currentUserType,
+      );
+    } else {
+      return await this.cashKicksService.getAllCashKicks(
+        page,
+        limit,
+        currentUserID,
+        currentUserType,
+      );
+    }
   }
 }
