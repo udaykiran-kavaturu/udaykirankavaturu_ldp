@@ -4,7 +4,7 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Repository, In, DataSource } from 'typeorm';
 import {
   CashKick,
@@ -15,7 +15,7 @@ import {
   PaymentSchedule,
   User,
   UserType,
-} from 'src/entities';
+} from '../entities';
 import {
   CreateCashKickDTO,
   UpdateCashKickContractDTO,
@@ -40,8 +40,9 @@ export class CashKicksService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
 
+    @InjectDataSource()
     private dataSource: DataSource,
-  ) {}
+  ) { }
 
   async createCashKick(
     createCashKickDTO: CreateCashKickDTO,

@@ -8,7 +8,7 @@ import {
   CashKickContract,
   PaymentSchedule,
   User,
-} from 'src/entities';
+} from '../entities';
 
 @Module({
   imports: [
@@ -23,4 +23,4 @@ import {
   controllers: [DashboardController],
   providers: [DashboardService],
 })
-export class DashboardModule {}
+export class DashboardModule { }

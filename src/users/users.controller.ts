@@ -20,8 +20,8 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
-import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from 'src/swagger';
-import { UserType } from 'src/entities';
+import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from '../swagger';
+import { UserType } from '../entities';
 
 @ApiTags('users')
 @ApiBadRequestResponse({
@@ -33,7 +33,7 @@ import { UserType } from 'src/entities';
 @ApiBearerAuth()
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @ApiForbiddenResponse({ example: USER_SWAGGER_RESPONSES.forbidden })
   @ApiOkResponse({ example: USER_SWAGGER_RESPONSES.patchUser })

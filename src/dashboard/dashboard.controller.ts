@@ -1,7 +1,7 @@
 import { Controller, Get, Request } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
-import { UserType } from 'src/entities';
-import { Roles } from 'src/auth/roles.decorator';
+import { UserType } from '../entities';
+import { Roles } from '../auth/roles.decorator';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -13,7 +13,7 @@ import {
 import {
   COMMON_SWAGGER_RESPONSES,
   DASHBOARD_SWAGGER_RESPONSES,
-} from 'src/swagger';
+} from '../swagger';
 
 @ApiTags('dashboard')
 @ApiBadRequestResponse({
@@ -26,7 +26,7 @@ import {
 @ApiBearerAuth()
 @Controller('dashboard')
 export class DashboardController {
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService) { }
 
   @ApiOkResponse({ example: DASHBOARD_SWAGGER_RESPONSES.getDashboardMetrics })
   @Roles(UserType.ADMIN, UserType.SEEKER)

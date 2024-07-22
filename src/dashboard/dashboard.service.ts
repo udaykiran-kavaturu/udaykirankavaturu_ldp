@@ -8,7 +8,7 @@ import {
   User,
   CashKickContractStatus,
   PaymentScheduleStatus,
-} from 'src/entities';
+} from '../entities';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class DashboardService {
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async getDashboardMetrics(currentUserID: number) {
     const response = {

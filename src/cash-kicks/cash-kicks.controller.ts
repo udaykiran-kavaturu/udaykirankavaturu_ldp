@@ -27,9 +27,9 @@ import {
 import {
   CASH_KICKS_SWAGGER_RESPONSES,
   COMMON_SWAGGER_RESPONSES,
-} from 'src/swagger';
-import { Roles } from 'src/auth/roles.decorator';
-import { UserType } from 'src/entities';
+} from '../swagger';
+import { Roles } from '../auth/roles.decorator';
+import { UserType } from '../entities';
 
 @ApiTags('cash-kicks')
 @ApiBadRequestResponse({
@@ -42,7 +42,7 @@ import { UserType } from 'src/entities';
 @ApiBearerAuth()
 @Controller('cash-kicks')
 export class CashKicksController {
-  constructor(private cashKicksService: CashKicksService) {}
+  constructor(private cashKicksService: CashKicksService) { }
 
   @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.created })
   @Post()

@@ -9,7 +9,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { ContractType } from 'src/entities';
+import { ContractType } from '../../entities';
 
 export class UpdateContractDTO {
   @ApiProperty()

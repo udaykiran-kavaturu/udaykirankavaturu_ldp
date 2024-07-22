@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ContractsController } from './contracts.controller';
 import { ContractsService } from './contracts.service';
-import { Contract } from 'src/entities';
+import { Contract } from '../entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
@@ -9,4 +9,4 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [ContractsController],
   providers: [ContractsService],
 })
-export class ContractsModule {}
+export class ContractsModule { }
