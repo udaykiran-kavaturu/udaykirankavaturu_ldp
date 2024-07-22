@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { InjectDataSource, TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ContractsModule } from './contracts/contracts.module';
 import { CashKicksModule } from './cash-kicks/cash-kicks.module';
@@ -16,7 +16,6 @@ import {
   PaymentSchedule,
 } from './entities';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -50,4 +49,4 @@ import { DataSource } from 'typeorm';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

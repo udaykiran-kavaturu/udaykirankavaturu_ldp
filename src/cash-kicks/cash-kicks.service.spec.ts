@@ -1,7 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CashKicksService } from './cash-kicks.service';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { Contract, CashKick, CashKickContract, PaymentSchedule, User } from '../entities';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import {
+  Contract,
+  CashKick,
+  CashKickContract,
+  PaymentSchedule,
+  User,
+} from '../entities';
 import { CashKicksController } from './cash-kicks.controller';
 import { DataSource } from 'typeorm';
 
@@ -22,8 +28,14 @@ describe('CashKicksService', () => {
         CashKicksService,
         { provide: getRepositoryToken(Contract), useValue: mockRepository },
         { provide: getRepositoryToken(CashKick), useValue: mockRepository },
-        { provide: getRepositoryToken(CashKickContract), useValue: mockRepository },
-        { provide: getRepositoryToken(PaymentSchedule), useValue: mockRepository },
+        {
+          provide: getRepositoryToken(CashKickContract),
+          useValue: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(PaymentSchedule),
+          useValue: mockRepository,
+        },
         { provide: getRepositoryToken(User), useValue: mockRepository },
         {
           provide: DataSource,

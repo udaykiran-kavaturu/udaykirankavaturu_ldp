@@ -23,4 +23,4 @@ import {
   controllers: [CashKicksController],
   providers: [CashKicksService],
 })
-export class CashKicksModule { }
+export class CashKicksModule {}

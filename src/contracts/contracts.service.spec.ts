@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ContractsService } from './contracts.service';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Contract } from '../entities';
 import { ContractsController } from './contracts.controller';
 
@@ -11,21 +11,22 @@ describe('ContractsService', () => {
     find: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
-    create: jest.fn()
+    create: jest.fn(),
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ContractsController],
-      providers: [ContractsService,
+      providers: [
+        ContractsService,
         {
           provide: getRepositoryToken(Contract),
-          useValue: mockRepository
+          useValue: mockRepository,
         },
         {
           provide: 'DataSource',
-          useValue: {}
-        }
+          useValue: {},
+        },
       ],
     }).compile();
 

@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ContractsController } from './contracts.controller';
-import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { Contract } from '../entities';
 import { ContractsService } from './contracts.service';
 
 describe('ContractsController', () => {
   let controller: ContractsController;
-  let service: ContractsService;
+  // let service: ContractsService;
 
   const mockRepository = {
     find: jest.fn(),
     findOne: jest.fn(),
     save: jest.fn(),
-    create: jest.fn()
+    create: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -22,12 +22,12 @@ describe('ContractsController', () => {
         ContractsService,
         {
           provide: getRepositoryToken(Contract),
-          useValue: mockRepository
+          useValue: mockRepository,
         },
         {
           provide: 'DataSource',
-          useValue: {}
-        }
+          useValue: {},
+        },
       ],
     }).compile();
 

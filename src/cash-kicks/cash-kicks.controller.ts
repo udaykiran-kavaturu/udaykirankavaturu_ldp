@@ -42,7 +42,7 @@ import { UserType } from '../entities';
 @ApiBearerAuth()
 @Controller('cash-kicks')
 export class CashKicksController {
-  constructor(private cashKicksService: CashKicksService) { }
+  constructor(private cashKicksService: CashKicksService) {}
 
   @ApiOkResponse({ example: CASH_KICKS_SWAGGER_RESPONSES.created })
   @Post()

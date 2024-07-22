@@ -26,7 +26,7 @@ import {
 @ApiBearerAuth()
 @Controller('dashboard')
 export class DashboardController {
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService) {}
 
   @ApiOkResponse({ example: DASHBOARD_SWAGGER_RESPONSES.getDashboardMetrics })
   @Roles(UserType.ADMIN, UserType.SEEKER)

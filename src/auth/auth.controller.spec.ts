@@ -2,10 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { UsersModule } from '../users/users.module';
 import { JWTConstants } from './auth.constants';
 import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
@@ -15,15 +14,11 @@ import { DataSource, Repository } from 'typeorm';
 
 describe('AuthController', () => {
   let controller: AuthController;
-  let mockRepository: Partial<Repository<User>>;
-  let mockUsersService: Partial<UsersService>;
-
-  mockRepository = {
+  const mockRepository: Partial<Repository<User>> = {
     find: jest.fn(),
     save: jest.fn(),
   };
-
-  mockUsersService = {
+  const mockUsersService: Partial<UsersService> = {
     findOne: jest.fn(),
     create: jest.fn(),
   };
@@ -63,7 +58,7 @@ describe('AuthController', () => {
         },
         {
           provide: DataSource,
-          useValue: {}
+          useValue: {},
         },
         {
           provide: UsersService,
@@ -71,7 +66,7 @@ describe('AuthController', () => {
         },
       ],
       controllers: [AuthController],
-      exports: [AuthService]
+      exports: [AuthService],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);

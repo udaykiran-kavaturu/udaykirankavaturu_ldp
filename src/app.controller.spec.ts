@@ -8,7 +8,13 @@ import { AuthModule } from './auth/auth.module';
 import { CashKicksModule } from './cash-kicks/cash-kicks.module';
 import { ContractsModule } from './contracts/contracts.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { User, Contract, CashKick, CashKickContract, PaymentSchedule } from './entities';
+import {
+  User,
+  Contract,
+  CashKick,
+  CashKickContract,
+  PaymentSchedule,
+} from './entities';
 import { UsersModule } from './users/users.module';
 
 describe('AppController', () => {
@@ -29,7 +35,13 @@ describe('AppController', () => {
             username: configService.get('DB_USERNAME'),
             password: configService.get('DB_PASSWORD'),
             database: configService.get('DB_NAME'),
-            entities: [User, Contract, CashKick, CashKickContract, PaymentSchedule],
+            entities: [
+              User,
+              Contract,
+              CashKick,
+              CashKickContract,
+              PaymentSchedule,
+            ],
             synchronize: false,
           }),
           inject: [ConfigService],
@@ -53,7 +65,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return "{"message": "ok"}"', () => {
-      expect(appController.checkHealth()).toEqual({ "message": "ok" });
+      expect(appController.checkHealth()).toEqual({ message: 'ok' });
     });
   });
 });
