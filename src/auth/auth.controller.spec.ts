@@ -85,7 +85,7 @@ describe('AuthController', () => {
       name: 'newuser',
       password: 'password123',
       email: 'newuser@example.com',
-      type: UserType.LENDER
+      type: UserType.LENDER,
     };
 
     const expectedResult = {
@@ -100,7 +100,7 @@ describe('AuthController', () => {
       created_by: 1,
       updated_by: 1,
       created_at: new Date(),
-      updated_at: new Date()
+      updated_at: new Date(),
     };
 
     jest.spyOn(authService, 'register').mockResolvedValue(expectedResult);
@@ -114,7 +114,7 @@ describe('AuthController', () => {
   it('should call authService.logIn with correct parameters', async () => {
     const loginDTO = {
       email: 'user@example.com',
-      password: 'password123'
+      password: 'password123',
     };
 
     const mockResult = { access_token: 'mocked.jwt.token' };
@@ -122,13 +122,16 @@ describe('AuthController', () => {
 
     const result = await controller.logIn(loginDTO);
 
-    expect(authService.logIn).toHaveBeenCalledWith(loginDTO.email, loginDTO.password);
+    expect(authService.logIn).toHaveBeenCalledWith(
+      loginDTO.email,
+      loginDTO.password,
+    );
     expect(result).toEqual(mockResult);
   });
 
   it('should add token to blacklist and return success message', () => {
     const mockRequest = {
-      token: 'sample.jwt.token'
+      token: 'sample.jwt.token',
     };
 
     const result = controller.logOut(mockRequest);

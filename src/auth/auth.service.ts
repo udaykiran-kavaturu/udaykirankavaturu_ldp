@@ -9,12 +9,9 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
-  async logIn(
-    email: string,
-    pass: string,
-  ): Promise<{ access_token: string }> {
+  async logIn(email: string, pass: string): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(email);
     if (!user) {
       throw new UnauthorizedException();

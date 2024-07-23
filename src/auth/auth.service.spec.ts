@@ -14,7 +14,6 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
-
 describe('AuthService', () => {
   let service: AuthService;
   const mockRepository: Partial<Repository<User>> = {
@@ -82,24 +81,40 @@ describe('AuthService', () => {
   it('should throw UnauthorizedException if user is not found', async () => {
     mockUsersService.findOne.mockResolvedValue(null);
 
-    await expect(service.logIn('fake@email.com', 'password')).rejects.toThrow(UnauthorizedException);
+    await expect(service.logIn('fake@email.com', 'password')).rejects.toThrow(
+      UnauthorizedException,
+    );
     expect(mockUsersService.findOne).toHaveBeenCalledWith('fake@email.com');
   });
 
   it('should throw UnauthorizedException if password does not match', async () => {
     const mockUser = { email: 'test@user.com', password: 'hashedPassword' };
     mockUsersService.findOne.mockResolvedValue(mockUser);
-    jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(false));
+    jest
+      .spyOn(bcrypt, 'compare')
+      .mockImplementation(() => Promise.resolve(false));
 
-    await expect(service.logIn('test@user.com', 'wrongPassword')).rejects.toThrow(UnauthorizedException);
+    await expect(
+      service.logIn('test@user.com', 'wrongPassword'),
+    ).rejects.toThrow(UnauthorizedException);
     expect(mockUsersService.findOne).toHaveBeenCalledWith('test@user.com');
-    expect(bcrypt.compare).toHaveBeenCalledWith('wrongPassword', 'hashedPassword');
+    expect(bcrypt.compare).toHaveBeenCalledWith(
+      'wrongPassword',
+      'hashedPassword',
+    );
   });
 
   it('should return an access token for valid credentials', async () => {
-    const mockUser = { id: 1, name: 'testUser', type: 'user', password: 'hashedPassword' };
+    const mockUser = {
+      id: 1,
+      name: 'testUser',
+      type: 'user',
+      password: 'hashedPassword',
+    };
     mockUsersService.findOne.mockResolvedValue(mockUser);
-    jest.spyOn(bcrypt, 'compare').mockImplementation(() => Promise.resolve(true));
+    jest
+      .spyOn(bcrypt, 'compare')
+      .mockImplementation(() => Promise.resolve(true));
 
     const mockJwtService = {
       signAsync: jest.fn().mockResolvedValue('mocked.jwt.token'),
@@ -110,7 +125,10 @@ describe('AuthService', () => {
 
     expect(result).toEqual({ access_token: 'mocked.jwt.token' });
     expect(mockUsersService.findOne).toHaveBeenCalledWith('test@user.com');
-    expect(bcrypt.compare).toHaveBeenCalledWith('correctPassword', 'hashedPassword');
+    expect(bcrypt.compare).toHaveBeenCalledWith(
+      'correctPassword',
+      'hashedPassword',
+    );
     expect(mockJwtService.signAsync).toHaveBeenCalledWith({
       sub: 1,
       username: 'testUser',
@@ -123,7 +141,7 @@ describe('AuthService', () => {
       name: 'new user',
       password: 'password123',
       email: 'newuser@example.com',
-      type: UserType.LENDER
+      type: UserType.LENDER,
     };
 
     const createdUser = {
@@ -131,7 +149,7 @@ describe('AuthService', () => {
       name: 'new user',
       password: 'password123',
       email: 'newuser@example.com',
-      type: 'lender'
+      type: 'lender',
     };
 
     mockUsersService.create.mockResolvedValue(createdUser);
@@ -141,6 +159,4 @@ describe('AuthService', () => {
     expect(result).toEqual(createdUser);
     expect(mockUsersService.create).toHaveBeenCalledWith(registerDTO);
   });
-
-
 });
