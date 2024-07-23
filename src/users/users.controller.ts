@@ -63,6 +63,7 @@ export class UsersController {
     if (currentUser.sub !== id && currentUser.type != UserType.ADMIN) {
       throw new ForbiddenException('you can only view your own profile');
     }
+
     return await this.usersService.findOneByID(id);
   }
 }

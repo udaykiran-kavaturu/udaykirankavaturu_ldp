@@ -13,7 +13,7 @@ import { DataSource } from 'typeorm';
 
 describe('DashboardController', () => {
   let controller: DashboardController;
-  // let service: DashboardService;
+  let dashboardService: DashboardService;
 
   const mockRepository = {
     find: jest.fn(),
@@ -46,9 +46,34 @@ describe('DashboardController', () => {
     }).compile();
 
     controller = module.get<DashboardController>(DashboardController);
+    dashboardService = module.get<DashboardService>(DashboardService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  describe('getDashboardMetrics', () => {
+    it('should call dashboardService.getDashboardMetrics with the correct user ID', async () => {
+      const mockRequest = {
+        user: { sub: 123 },
+      };
+      const mockMetrics = {
+        term_cap: 12,
+        credit_balance: null,
+        max_interest_rate: null,
+        outstanding_amount: null,
+        next_due_date: null,
+      };
+
+      jest
+        .spyOn(dashboardService, 'getDashboardMetrics')
+        .mockResolvedValue(mockMetrics);
+
+      const result = await controller.getDashboardMetrics(mockRequest);
+
+      expect(dashboardService.getDashboardMetrics).toHaveBeenCalledWith(123);
+      expect(result).toEqual(mockMetrics);
+    });
   });
 });

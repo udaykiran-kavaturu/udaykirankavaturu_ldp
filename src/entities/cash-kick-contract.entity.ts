@@ -30,7 +30,7 @@ export class CashKickContract {
 
   @ManyToOne(() => CashKick, { nullable: true })
   @JoinColumn({ name: 'cash_kick_id' })
-  cash_kick_id: CashKick;
+  cash_kick_id: CashKick | number;
 
   @Column({
     type: 'int',

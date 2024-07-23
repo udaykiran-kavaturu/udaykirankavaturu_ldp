@@ -42,6 +42,7 @@ export class DashboardService {
     const userDetails = await this.userRepository.findOne({
       where: { id: currentUserID },
     });
+
     response.credit_balance = userDetails.credit_balance;
 
     const activeContracts = await this.cashKickContractsRepository.find({
