@@ -20,19 +20,13 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Test and coverage
         run: npm run coverage
-      - name: List coverage directory
-        run: ls -R coverage
       - name: SonarCloud Scan
+        with:
+          projectBaseDir: .
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Debug - Print working directory after SonarCloud
-        run: pwd
-      - name: Debug - Print working directory items
-        run: ls -la
-      - name: Debug - List coverage directory after SonarCloud
-        run: ls -R coverage
   branchAnalysis: # to get the branch analysis on merge
     if: github.event.pull_request.merged == true
     name: Branch Analysis on PR merge
@@ -49,13 +43,11 @@ jobs:
         run: npm install --legacy-peer-deps
       - name: Test and coverage
         run: npm run coverage
-      - name: List coverage directory
-        run: ls -R coverage
       - name: SonarCloud Scan
         with:
           projectBaseDir: .
           args: >
-            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
+            -Dsonar.branch.name=main
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
