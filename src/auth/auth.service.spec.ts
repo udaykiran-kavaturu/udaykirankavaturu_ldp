@@ -131,11 +131,14 @@ describe('AuthService', () => {
       'correctPassword',
       'hashedPassword',
     );
-    expect(mockJwtService.signAsync).toHaveBeenCalledWith({
-      sub: 1,
-      username: 'testUser',
-      type: 'user',
-    }, { expiresIn: '10m' });
+    expect(mockJwtService.signAsync).toHaveBeenCalledWith(
+      {
+        sub: 1,
+        username: 'testUser',
+        type: 'user',
+      },
+      { expiresIn: '10m' },
+    );
   });
 
   it('should create a new user and return the result', async () => {
