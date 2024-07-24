@@ -10,4 +10,4 @@ import { Contract } from '../entities';
   controllers: [ContractsController],
   providers: [ContractsService],
 })
-export class ContractsModule { }
+export class ContractsModule {}

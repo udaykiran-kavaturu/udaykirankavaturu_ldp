@@ -16,7 +16,7 @@ export class ContractsService {
   constructor(
     @InjectRepository(Contract)
     private contractsRepository: Repository<Contract>,
-  ) { }
+  ) {}
 
   async createContract(
     createContractDTO: CreateContractDTO,

@@ -44,7 +44,7 @@ export class CashKicksService {
 
     @InjectDataSource()
     private dataSource: DataSource,
-  ) { }
+  ) {}
 
   async createCashKick(
     createCashKickDTO: CreateCashKickDTO,

@@ -37,7 +37,7 @@ import { CONTRACTS_SWAGGER_RESPONSES } from '../swagger/contracts';
 @ApiBearerAuth()
 @Controller('contracts')
 export class ContractsController {
-  constructor(private contractsService: ContractsService) { }
+  constructor(private contractsService: ContractsService) {}
 
   @ApiOkResponse({ example: CONTRACTS_SWAGGER_RESPONSES.created })
   @Roles(UserType.ADMIN, UserType.LENDER)

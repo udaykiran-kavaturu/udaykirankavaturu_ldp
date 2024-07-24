@@ -11,7 +11,7 @@ import { COMMON_SWAGGER_RESPONSES } from './swagger';
 })
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @ApiOkResponse({ example: COMMON_SWAGGER_RESPONSES.healthCheckResponse })
   @Get('/health-check')

@@ -24,4 +24,4 @@ import {
   controllers: [DashboardController],
   providers: [DashboardService],
 })
-export class DashboardModule { }
+export class DashboardModule {}
