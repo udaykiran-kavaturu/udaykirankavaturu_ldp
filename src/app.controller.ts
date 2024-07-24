@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+
 import { AppService } from './app.service';
 import { Public } from './auth/auth.public-decorator';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { COMMON_SWAGGER_RESPONSES } from './swagger';
 
 @ApiTags('health-check')
@@ -10,7 +11,7 @@ import { COMMON_SWAGGER_RESPONSES } from './swagger';
 })
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
   @ApiOkResponse({ example: COMMON_SWAGGER_RESPONSES.healthCheckResponse })
   @Get('/health-check')

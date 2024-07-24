@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ContractsController } from './contracts.controller';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { ContractsController } from './contracts.controller';
 import { Contract, ContractType, UserType } from '../entities';
 import { ContractsService } from './contracts.service';
 import { CreateContractDTO, UpdateContractDTO } from './dto';

@@ -4,17 +4,19 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { Repository } from 'typeorm';
+
 import { CreateContractDTO } from './dto';
 import { Contract, UserType } from '../entities';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class ContractsService {
   constructor(
     @InjectRepository(Contract)
     private contractsRepository: Repository<Contract>,
-  ) {}
+  ) { }
 
   async createContract(
     createContractDTO: CreateContractDTO,

@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum, IsNumber, Min, IsDate } from 'class-validator';
+
 import { CashKick } from './cash-kick.entity';
 
 export enum PaymentScheduleStatus {

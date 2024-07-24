@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import { Repository } from 'typeorm';
+
 import {
   Contract,
   CashKick,
@@ -9,7 +12,6 @@ import {
   CashKickContractStatus,
   PaymentScheduleStatus,
 } from '../entities';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class DashboardService {
@@ -28,7 +30,7 @@ export class DashboardService {
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async getDashboardMetrics(currentUserID: number) {
     const response = {

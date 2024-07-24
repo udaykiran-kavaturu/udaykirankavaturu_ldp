@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DashboardService } from './dashboard.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { DataSource } from 'typeorm';
+
+import { DashboardService } from './dashboard.service';
 import {
   Contract,
   CashKick,
@@ -9,7 +12,6 @@ import {
   User,
 } from '../entities';
 import { DashboardController } from './dashboard.controller';
-import { DataSource } from 'typeorm';
 
 describe('DashboardService', () => {
   let service: DashboardService;

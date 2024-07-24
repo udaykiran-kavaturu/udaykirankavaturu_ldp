@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersController } from './users.controller';
+import { ForbiddenException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { DataSource, Repository } from 'typeorm';
+
+import { UsersController } from './users.controller';
 import { User, UserType } from '../entities';
 import { UsersService } from './users.service';
-import { DataSource, Repository } from 'typeorm';
-import { ForbiddenException } from '@nestjs/common';
 
 describe('UsersController', () => {
   let controller: UsersController;

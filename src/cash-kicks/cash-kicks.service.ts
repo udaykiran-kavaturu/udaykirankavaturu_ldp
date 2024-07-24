@@ -5,7 +5,9 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+
 import { Repository, In, DataSource } from 'typeorm';
+
 import {
   CashKick,
   CashKickContract,
@@ -42,7 +44,7 @@ export class CashKicksService {
 
     @InjectDataSource()
     private dataSource: DataSource,
-  ) {}
+  ) { }
 
   async createCashKick(
     createCashKickDTO: CreateCashKickDTO,

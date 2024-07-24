@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
   IsEnum,
   IsNotEmpty,
@@ -9,6 +10,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
+
 import { ContractType } from '../../entities';
 
 export class UpdateContractDTO {

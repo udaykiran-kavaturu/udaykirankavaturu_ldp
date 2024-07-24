@@ -1,16 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { DataSource, Repository } from 'typeorm';
+
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { UsersService } from '../users/users.service';
 import { JWTConstants } from './auth.constants';
 import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { User, UserType } from '../entities';
-import { DataSource, Repository } from 'typeorm';
 import { blacklistedTokens } from '../utils/blacklisted-tokens';
 
 describe('AuthController', () => {

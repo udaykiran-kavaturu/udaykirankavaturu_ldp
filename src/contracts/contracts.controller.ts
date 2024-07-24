@@ -8,10 +8,6 @@ import {
   Query,
   Request,
 } from '@nestjs/common';
-import { ContractsService } from './contracts.service';
-import { CreateContractDTO, UpdateContractDTO } from './dto';
-import { Roles } from '../auth/roles.decorator';
-import { UserType } from '../entities';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -22,6 +18,11 @@ import {
   ApiNotFoundResponse,
   ApiQuery,
 } from '@nestjs/swagger';
+
+import { ContractsService } from './contracts.service';
+import { CreateContractDTO, UpdateContractDTO } from './dto';
+import { Roles } from '../auth/roles.decorator';
+import { UserType } from '../entities';
 import { COMMON_SWAGGER_RESPONSES } from '../swagger';
 import { CONTRACTS_SWAGGER_RESPONSES } from '../swagger/contracts';
 
@@ -36,7 +37,7 @@ import { CONTRACTS_SWAGGER_RESPONSES } from '../swagger/contracts';
 @ApiBearerAuth()
 @Controller('contracts')
 export class ContractsController {
-  constructor(private contractsService: ContractsService) {}
+  constructor(private contractsService: ContractsService) { }
 
   @ApiOkResponse({ example: CONTRACTS_SWAGGER_RESPONSES.created })
   @Roles(UserType.ADMIN, UserType.LENDER)

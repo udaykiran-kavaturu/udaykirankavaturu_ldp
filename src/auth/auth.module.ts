@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler';
+
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
-import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { JWTConstants } from './auth.constants';
-import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
-import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -36,4 +37,4 @@ import { ThrottlerGuard } from '@nestjs/throttler';
   controllers: [AuthController],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }
