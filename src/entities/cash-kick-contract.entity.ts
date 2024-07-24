@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { IsNotEmpty, IsEnum } from 'class-validator';
+
 import { CashKick } from './cash-kick.entity';
 
 export enum CashKickContractStatus {

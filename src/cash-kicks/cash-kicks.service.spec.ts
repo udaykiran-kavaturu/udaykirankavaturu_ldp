@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CashKicksService } from './cash-kicks.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
+
+import { DataSource } from 'typeorm';
+
+import { CashKicksService } from './cash-kicks.service';
 import {
   Contract,
   CashKick,
@@ -12,8 +16,6 @@ import {
   PaymentScheduleStatus,
 } from '../entities';
 import { CashKicksController } from './cash-kicks.controller';
-import { DataSource } from 'typeorm';
-import { ForbiddenException, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateCashKickDTO } from './dto';
 
 describe('CashKicksService', () => {

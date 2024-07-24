@@ -6,10 +6,6 @@ import {
   Post,
   Request,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { Public } from './auth.public-decorator';
-import { blacklistedTokens } from '../utils/blacklisted-tokens';
-import { LoginDTO, RegisterDTO } from './dto';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -18,6 +14,11 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+
+import { AuthService } from './auth.service';
+import { Public } from './auth.public-decorator';
+import { blacklistedTokens } from '../utils/blacklisted-tokens';
+import { LoginDTO, RegisterDTO } from './dto';
 import { COMMON_SWAGGER_RESPONSES, AUTH_SWAGGER_RESPONSES } from '../swagger';
 @Controller('auth')
 @ApiTags('auth')

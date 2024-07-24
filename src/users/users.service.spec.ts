@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
+import { HttpException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { DataSource } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
+import { UsersService } from './users.service';
 import { User } from '../entities';
 import { UsersController } from './users.controller';
-import { DataSource } from 'typeorm';
-import { HttpException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
 const SALT_ROUNDS = 10;
 jest.mock('bcrypt', () => ({

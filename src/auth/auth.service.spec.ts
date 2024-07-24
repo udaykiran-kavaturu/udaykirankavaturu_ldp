@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from './auth.service';
-import { UsersService } from '../users/users.service';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UnauthorizedException } from '@nestjs/common';
+
+import { DataSource, Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
+import { AuthService } from './auth.service';
+import { UsersService } from '../users/users.service';
 import { JWTConstants } from './auth.constants';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
 import { User, UserType } from '../entities';
-import { DataSource, Repository } from 'typeorm';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -129,11 +131,14 @@ describe('AuthService', () => {
       'correctPassword',
       'hashedPassword',
     );
-    expect(mockJwtService.signAsync).toHaveBeenCalledWith({
-      sub: 1,
-      username: 'testUser',
-      type: 'user',
-    });
+    expect(mockJwtService.signAsync).toHaveBeenCalledWith(
+      {
+        sub: 1,
+        username: 'testUser',
+        type: 'user',
+      },
+      { expiresIn: '10m' },
+    );
   });
 
   it('should create a new user and return the result', async () => {

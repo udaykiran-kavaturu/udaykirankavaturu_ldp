@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { CashKicksController } from './cash-kicks.controller';
 import { CashKicksService } from './cash-kicks.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   CashKick,
   CashKickContract,

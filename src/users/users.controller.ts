@@ -8,9 +8,6 @@ import {
   Query,
   Request,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UpdateUserDTO } from './dto';
-import { GetUser } from './get-user.decorator';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -20,6 +17,10 @@ import {
   ApiOkResponse,
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
+
+import { UsersService } from './users.service';
+import { UpdateUserDTO } from './dto';
+import { GetUser } from './get-user.decorator';
 import { COMMON_SWAGGER_RESPONSES, USER_SWAGGER_RESPONSES } from '../swagger';
 import { UserType } from '../entities';
 

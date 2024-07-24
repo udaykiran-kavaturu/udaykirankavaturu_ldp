@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+
 import {
   IsEnum,
   IsNotEmpty,
@@ -6,6 +7,7 @@ import {
   IsStrongPassword,
   Matches,
 } from 'class-validator';
+
 import { UserType } from '../../entities';
 
 export class UpdateUserDTO {

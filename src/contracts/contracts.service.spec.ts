@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ContractsService } from './contracts.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { ForbiddenException, HttpException } from '@nestjs/common';
+
+import { ContractsService } from './contracts.service';
 import { Contract } from '../entities';
 import { ContractsController } from './contracts.controller';
 import { UserType } from '../entities';
-import { ForbiddenException, HttpException } from '@nestjs/common';
 
 describe('ContractsService', () => {
   let service: ContractsService;

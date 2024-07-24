@@ -1,7 +1,4 @@
 import { Controller, Get, Request } from '@nestjs/common';
-import { DashboardService } from './dashboard.service';
-import { UserType } from '../entities';
-import { Roles } from '../auth/roles.decorator';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -10,6 +7,10 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
 } from '@nestjs/swagger';
+
+import { DashboardService } from './dashboard.service';
+import { UserType } from '../entities';
+import { Roles } from '../auth/roles.decorator';
 import {
   COMMON_SWAGGER_RESPONSES,
   DASHBOARD_SWAGGER_RESPONSES,

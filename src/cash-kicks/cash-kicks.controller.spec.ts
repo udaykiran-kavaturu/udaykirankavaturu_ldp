@@ -1,7 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+
+import { DataSource } from 'typeorm';
+
 import { CashKicksController } from './cash-kicks.controller';
 import { CashKicksService } from './cash-kicks.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import {
   Contract,
   CashKick,
@@ -13,7 +16,6 @@ import {
   PaymentScheduleStatus,
   CashKickStatus,
 } from '../entities';
-import { DataSource } from 'typeorm';
 describe('CashKicksController', () => {
   let controller: CashKicksController;
   let service: CashKicksService;

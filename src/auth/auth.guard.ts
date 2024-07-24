@@ -5,9 +5,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JWTConstants } from './auth.constants';
-import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
+import { Request } from 'express';
+
+import { JWTConstants } from './auth.constants';
 import { IS_PUBLIC_KEY } from './auth.public-decorator';
 import { blacklistedTokens } from '../utils/blacklisted-tokens';
 

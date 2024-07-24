@@ -8,12 +8,6 @@ import {
   Query,
   Request,
 } from '@nestjs/common';
-import { CashKicksService } from './cash-kicks.service';
-import {
-  CreateCashKickDTO,
-  UpdateCashKickContractDTO,
-  UpdateScheduleDTO,
-} from './dto';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -24,6 +18,14 @@ import {
   ApiNotFoundResponse,
   ApiQuery,
 } from '@nestjs/swagger';
+
+import { CashKicksService } from './cash-kicks.service';
+import {
+  CreateCashKickDTO,
+  UpdateCashKickContractDTO,
+  UpdateScheduleDTO,
+} from './dto';
+
 import {
   CASH_KICKS_SWAGGER_RESPONSES,
   COMMON_SWAGGER_RESPONSES,

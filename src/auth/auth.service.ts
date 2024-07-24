@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+
 import * as bcrypt from 'bcrypt';
+
 import { UsersService } from '../users/users.service';
 import { RegisterDTO } from './dto';
 
@@ -26,7 +28,9 @@ export class AuthService {
       type: user.type,
     };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      access_token: await this.jwtService.signAsync(payload, {
+        expiresIn: '10m',
+      }),
     };
   }
 
