@@ -88,12 +88,11 @@ describe('UsersController', () => {
 
   it('should call usersService.findOneByID with correct parameter when user views own profile', async () => {
     const id = 1;
-    const req = { user: { sub: 1, type: UserType.LENDER } };
     const mockUser = { id: 1, name: 'Test User' };
 
     mockUserService.findOneByID = jest.fn().mockResolvedValue(mockUser);
 
-    const result = await controller.getUser(id, req);
+    const result = await controller.getUser(id);
 
     expect(mockUserService.findOneByID).toHaveBeenCalledWith(id);
     expect(result).toEqual(mockUser);
@@ -101,12 +100,11 @@ describe('UsersController', () => {
 
   it('should call usersService.findOneByID with correct parameter when admin views any profile', async () => {
     const id = 2;
-    const req = { user: { sub: 1, type: UserType.ADMIN } };
     const mockUser = { id: 2, name: 'Another User' };
 
     mockUserService.findOneByID = jest.fn().mockResolvedValue(mockUser);
 
-    const result = await controller.getUser(id, req);
+    const result = await controller.getUser(id);
 
     expect(mockUserService.findOneByID).toHaveBeenCalledWith(id);
     expect(result).toEqual(mockUser);
