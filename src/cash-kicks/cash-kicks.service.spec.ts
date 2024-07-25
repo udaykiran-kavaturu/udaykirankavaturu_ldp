@@ -403,7 +403,7 @@ describe('CashKicksService', () => {
     it('should throw an error if no cash kicks found', async () => {
       mockRepository.findAndCount.mockResolvedValue([[], 0]);
       await expect(
-        service.getAllCashKicks(page, limit, currentUserID, currentUserType),
+        service.getAllCashKicks(currentUserID, currentUserType, page, limit),
       ).rejects.toThrow(
         new HttpException('no cash kicks found', HttpStatus.NOT_FOUND),
       );
@@ -412,10 +412,10 @@ describe('CashKicksService', () => {
     it('should return cash kicks successfully for seeker', async () => {
       mockRepository.findAndCount.mockResolvedValue([[{ id: 1 }], 1]);
       const result = await service.getAllCashKicks(
-        page,
-        limit,
         currentUserID,
         currentUserType,
+        page,
+        limit,
       );
       expect(result).toBeDefined();
       expect(result.data).toHaveLength(1);
@@ -424,10 +424,10 @@ describe('CashKicksService', () => {
     it('should return cash kicks successfully for admin', async () => {
       mockRepository.findAndCount.mockResolvedValue([[{ id: 1 }], 1]);
       const result = await service.getAllCashKicks(
-        page,
-        limit,
         currentUserID,
         UserType.ADMIN,
+        page,
+        limit,
       );
       expect(result).toBeDefined();
       expect(result.data).toHaveLength(1);
@@ -436,10 +436,10 @@ describe('CashKicksService', () => {
     it('should return correct pagination meta', async () => {
       mockRepository.findAndCount.mockResolvedValue([[{ id: 1 }], 20]);
       const result = await service.getAllCashKicks(
-        page,
-        limit,
         currentUserID,
         currentUserType,
+        page,
+        limit,
       );
       expect(result.meta.total).toBe(20);
       expect(result.meta.page).toBe(page);

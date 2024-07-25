@@ -184,10 +184,10 @@ describe('ContractsController', () => {
       await controller.getContracts(undefined, page, limit, req);
 
       expect(service.getAllContracts).toHaveBeenCalledWith(
-        page,
-        limit,
         req.user.sub,
         req.user.type,
+        page,
+        limit,
       );
     });
   });

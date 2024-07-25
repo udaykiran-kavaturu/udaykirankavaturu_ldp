@@ -220,10 +220,10 @@ describe('CashKicksController', () => {
       await controller.getCashKicks(undefined, page, limit, req);
 
       expect(service.getAllCashKicks).toHaveBeenCalledWith(
-        page,
-        limit,
         req.user.sub,
         req.user.type,
+        page,
+        limit,
       );
     });
   });

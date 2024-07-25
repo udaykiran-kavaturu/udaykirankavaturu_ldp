@@ -162,10 +162,10 @@ describe('ContractsService', () => {
 
       expect(
         await service.getAllContracts(
-          page,
-          limit,
           currentUserID,
           currentUserType,
+          page,
+          limit,
         ),
       ).toEqual({
         data: [{ id: 1 }],
@@ -187,7 +187,7 @@ describe('ContractsService', () => {
       mockRepository.findAndCount.mockResolvedValueOnce([[], 0]);
 
       await expect(
-        service.getAllContracts(page, limit, currentUserID, currentUserType),
+        service.getAllContracts(currentUserID, currentUserType, page, limit),
       ).rejects.toThrow(HttpException);
     });
   });
