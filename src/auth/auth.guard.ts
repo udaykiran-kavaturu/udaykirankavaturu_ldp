@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -11,6 +12,7 @@ import { Request } from 'express';
 import { JWTConstants } from './auth.constants';
 import { IS_PUBLIC_KEY } from './auth.public-decorator';
 import { blacklistedTokens } from '../utils/blacklisted-tokens';
+import { UserType } from '../entities';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -46,6 +48,15 @@ export class AuthGuard implements CanActivate {
 
     request['user'] = payload;
     request['token'] = token;
+
+    if (
+      request.user.sub !== Number(request.query.id) &&
+      request.user.type != UserType.ADMIN
+    ) {
+      throw new ForbiddenException(
+        'you can only view or update your own profile',
+      );
+    }
 
     return true;
   }

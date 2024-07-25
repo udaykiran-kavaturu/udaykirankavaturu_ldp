@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ForbiddenException } from '@nestjs/common';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { DataSource, Repository } from 'typeorm';
@@ -47,23 +46,6 @@ describe('UsersController', () => {
     expect(controller).toBeDefined();
   });
 
-  it("should throw ForbiddenException when non-admin user tries to update another user's profile", async () => {
-    const id = 2;
-    const updateUserDTO = {
-      name: 'New Name',
-      password: 'someNewPassword',
-      type: UserType.LENDER,
-    };
-    const currentUser = { sub: 1, type: UserType.LENDER };
-    const mockRequest = { someRequestData: 'data' };
-
-    await expect(
-      controller.updateUser(id, updateUserDTO, currentUser, mockRequest),
-    ).rejects.toThrow(ForbiddenException);
-
-    expect(mockUserService.update).not.toHaveBeenCalled();
-  });
-
   it('should call usersService.update with correct parameters when admin updates any profile', async () => {
     const id = 2;
     const updateUserDTO = {
@@ -71,12 +53,11 @@ describe('UsersController', () => {
       password: 'someNewPassword',
       type: UserType.LENDER,
     };
-    const currentUser = { sub: 1, type: UserType.ADMIN };
-    const mockRequest = { someRequestData: 'data' };
+    const mockRequest = { user: { sub: 1, type: UserType.ADMIN } };
 
     mockUserService.update.mockResolvedValue({ id: 2, name: 'New Name' });
 
-    await controller.updateUser(id, updateUserDTO, currentUser, mockRequest);
+    await controller.updateUser(id, updateUserDTO, mockRequest);
 
     expect(mockUserService.update).toHaveBeenCalledWith(
       id,
@@ -92,12 +73,11 @@ describe('UsersController', () => {
       password: 'someNewPassword',
       type: UserType.LENDER,
     };
-    const currentUser = { sub: 1, type: UserType.LENDER };
-    const mockRequest = { someRequestData: 'data' };
+    const mockRequest = { user: { sub: 1, type: UserType.LENDER } };
 
     mockUserService.update.mockResolvedValue({ id: 1, name: 'New Name' });
 
-    await controller.updateUser(id, updateUserDTO, currentUser, mockRequest);
+    await controller.updateUser(id, updateUserDTO, mockRequest);
 
     expect(mockUserService.update).toHaveBeenCalledWith(
       id,
@@ -108,12 +88,12 @@ describe('UsersController', () => {
 
   it('should call usersService.findOneByID with correct parameter when user views own profile', async () => {
     const id = 1;
-    const currentUser = { sub: 1, type: UserType.LENDER };
+    const req = { user: { sub: 1, type: UserType.LENDER } };
     const mockUser = { id: 1, name: 'Test User' };
 
     mockUserService.findOneByID = jest.fn().mockResolvedValue(mockUser);
 
-    const result = await controller.getUser(id, currentUser);
+    const result = await controller.getUser(id, req);
 
     expect(mockUserService.findOneByID).toHaveBeenCalledWith(id);
     expect(result).toEqual(mockUser);
@@ -121,25 +101,14 @@ describe('UsersController', () => {
 
   it('should call usersService.findOneByID with correct parameter when admin views any profile', async () => {
     const id = 2;
-    const currentUser = { sub: 1, type: UserType.ADMIN };
+    const req = { user: { sub: 1, type: UserType.ADMIN } };
     const mockUser = { id: 2, name: 'Another User' };
 
     mockUserService.findOneByID = jest.fn().mockResolvedValue(mockUser);
 
-    const result = await controller.getUser(id, currentUser);
+    const result = await controller.getUser(id, req);
 
     expect(mockUserService.findOneByID).toHaveBeenCalledWith(id);
     expect(result).toEqual(mockUser);
-  });
-
-  it("should throw ForbiddenException when non-admin user tries to view another user's profile", async () => {
-    const id = 2;
-    const currentUser = { sub: 1, type: UserType.LENDER };
-
-    await expect(controller.getUser(id, currentUser)).rejects.toThrow(
-      ForbiddenException,
-    );
-
-    await expect(mockUserService.findOneByID).not.toHaveBeenCalled();
   });
 });

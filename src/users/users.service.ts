@@ -5,8 +5,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { User } from '../entities/user.entity';
+import { SALT_ROUNDS } from '../utils/constants';
 
-const SALT_ROUNDS = 10;
 @Injectable()
 export class UsersService {
   constructor(
@@ -34,10 +34,6 @@ export class UsersService {
   }
 
   async update(id: number, user: Partial<User>, @Request() req): Promise<User> {
-    const userDetails = await this.usersRepository.findOne({ where: { id } });
-    if (!userDetails)
-      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
-
     if (user.password) {
       const salt = await bcrypt.genSalt(SALT_ROUNDS);
       const hash = await bcrypt.hash(user.password, salt);
@@ -46,11 +42,14 @@ export class UsersService {
 
     user.updated_by = req.user.sub;
 
-    await this.usersRepository.update(id, user);
-    return await this.usersRepository.findOne({ where: { id } });
-  }
+    const updatedUser = await this.usersRepository.update(id, user);
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    if (!updatedUser.affected)
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
+
+    return this.usersRepository.findOne({
+      where: { id },
+      select: { id: true, name: true, email: true, type: true },
+    });
   }
 }

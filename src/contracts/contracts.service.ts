@@ -50,7 +50,18 @@ export class ContractsService {
 
     contract.updated_by = currentUserID;
     await this.contractsRepository.update(id, contract);
-    return await this.contractsRepository.findOne({ where: { id } });
+    return await this.contractsRepository.findOne({
+      where: { id },
+      select: {
+        id: true,
+        amount: true,
+        fee: true,
+        name: true,
+        status: true,
+        type: true,
+        scheduled_due_date: true,
+      },
+    });
   }
 
   async getContractById(
@@ -60,6 +71,15 @@ export class ContractsService {
   ) {
     const contract = await this.contractsRepository.findOne({
       where: { id },
+      select: {
+        id: true,
+        amount: true,
+        fee: true,
+        name: true,
+        status: true,
+        type: true,
+        scheduled_due_date: true,
+      },
     });
     if (!contract)
       throw new HttpException('contract not found', HttpStatus.NOT_FOUND);

@@ -286,6 +286,12 @@ export class CashKicksService {
     );
     return await this.paymentScheduleRepository.findOne({
       where: { id: scheduleId },
+      select: {
+        id: true,
+        due_date: true,
+        status: true,
+        amount: true,
+      },
     });
   }
 

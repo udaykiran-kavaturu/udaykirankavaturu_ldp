@@ -34,6 +34,7 @@ export class UpdateContractDTO {
   @IsNotEmpty()
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
+  @Max(1000000)
   amount: number;
 
   @ApiProperty()

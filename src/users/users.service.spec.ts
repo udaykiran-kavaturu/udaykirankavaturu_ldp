@@ -22,6 +22,7 @@ describe('UsersService', () => {
     findOne: jest.fn(),
     find: jest.fn(),
     save: jest.fn(),
+    update: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -176,11 +177,11 @@ describe('UsersService', () => {
 
   describe('update', () => {
     it('should update a user successfully', async () => {
-      const mockUser = {
+      const updatedUser = {
         id: 1,
-        email: 'test@example.com',
-        name: 'Test User',
-        password: 'oldpassword',
+        name: 'updated name',
+        email: 'updated@email.com',
+        type: 'lender',
       };
       const updateData = {
         name: 'Updated Name',
@@ -190,22 +191,16 @@ describe('UsersService', () => {
         user: { sub: 2 },
       };
 
-      mockRepository.findOne.mockResolvedValueOnce(mockUser);
       jest.spyOn(bcrypt, 'genSalt').mockResolvedValue('mockedSalt' as never);
       jest
         .spyOn(bcrypt, 'hash')
         .mockResolvedValue('hashedNewPassword' as never);
-      mockRepository.update = jest.fn().mockResolvedValue({});
-      mockRepository.findOne.mockResolvedValueOnce({
-        ...mockUser,
-        ...updateData,
-        password: 'hashedNewPassword',
-        updated_by: 2,
-      });
+      mockRepository.update = jest.fn().mockResolvedValue({ affected: 1 });
+      mockRepository.findOne.mockResolvedValueOnce(updatedUser);
 
       const result = await service.update(1, updateData, mockRequest);
 
-      expect(mockRepository.findOne).toHaveBeenCalledTimes(2);
+      expect(mockRepository.findOne).toHaveBeenCalledTimes(1);
       expect(bcrypt.genSalt).toHaveBeenCalledWith(SALT_ROUNDS);
       expect(bcrypt.hash).toHaveBeenCalledWith('newpassword', 'mockedSalt');
       expect(mockRepository.update).toHaveBeenCalledWith(1, {
@@ -213,45 +208,19 @@ describe('UsersService', () => {
         password: 'hashedNewPassword',
         updated_by: 2,
       });
-      expect(result).toEqual({
-        ...mockUser,
-        ...updateData,
-        password: 'hashedNewPassword',
-        updated_by: 2,
-      });
+      expect(result).toEqual(updatedUser);
     });
 
     it('should throw HttpException if user is not found', async () => {
-      mockRepository.findOne.mockResolvedValue(null);
+      jest.spyOn(bcrypt, 'genSalt').mockResolvedValue('mockedSalt' as never);
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockResolvedValue('hashedNewPassword' as never);
+      mockRepository.update.mockResolvedValue({ affected: 0 });
 
       await expect(
         service.update(999, {}, { user: { sub: 1 } }),
       ).rejects.toThrow(HttpException);
-    });
-  });
-
-  describe('findAll', () => {
-    it('should return an array of users', async () => {
-      const mockUsers = [
-        { id: 1, name: 'User 1', email: 'user1@example.com' },
-        { id: 2, name: 'User 2', email: 'user2@example.com' },
-      ];
-
-      mockRepository.find.mockResolvedValue(mockUsers);
-
-      const result = await service.findAll();
-
-      expect(result).toEqual(mockUsers);
-      expect(mockRepository.find).toHaveBeenCalled();
-    });
-
-    it('should return an empty array if no users are found', async () => {
-      mockRepository.find.mockResolvedValue([]);
-
-      const result = await service.findAll();
-
-      expect(result).toEqual([]);
-      expect(mockRepository.find).toHaveBeenCalled();
     });
   });
 });

@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 import * as bcrypt from 'bcrypt';
 
@@ -11,6 +12,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async logIn(email: string, pass: string): Promise<{ access_token: string }> {
@@ -29,7 +31,7 @@ export class AuthService {
     };
     return {
       access_token: await this.jwtService.signAsync(payload, {
-        expiresIn: '10m',
+        expiresIn: this.configService.get('JWT_EXPIRES_IN', '10m'),
       }),
     };
   }
