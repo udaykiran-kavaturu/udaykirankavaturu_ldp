@@ -14,6 +14,7 @@ import { AuthGuard } from './auth.guard';
 import { RolesGuard } from './roles.guard';
 import { User, UserType } from '../entities';
 import { blacklistedTokens } from '../utils/blacklisted-tokens';
+import { ConfigModule } from '@nestjs/config';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -31,6 +32,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        ConfigModule,
         JwtModule.register({
           global: true,
           secret: JWTConstants.secret,
