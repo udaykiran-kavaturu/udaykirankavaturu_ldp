@@ -2,12 +2,15 @@ import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import * as compression from 'compression';
+
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './utils/exception-handler';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const httpAdapter = app.get(HttpAdapterHost);
+  app.use(compression());
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.useGlobalPipes(
     new ValidationPipe({ forbidNonWhitelisted: true, whitelist: true }),

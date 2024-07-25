@@ -101,10 +101,10 @@ export class ContractsController {
       );
     } else {
       return await this.contractsService.getAllContracts(
-        page,
-        limit,
         currentUserID,
         currentUserType,
+        page,
+        limit,
       );
     }
   }
