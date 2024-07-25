@@ -34,6 +34,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
         database: configService.get('DB_NAME'),
         entities: [User, Contract, CashKick, CashKickContract, PaymentSchedule],
         synchronize: false,
+        poolOptions: {
+          min: 5,
+          max: 20,
+          idleTimeoutMillis: 30000,
+          acquireTimeoutMillis: 30000,
+        },
       }),
       inject: [ConfigService],
     }),

@@ -22,8 +22,7 @@ export class ContractsService {
     createContractDTO: CreateContractDTO,
     currentUserID: number,
   ) {
-    const newContract =
-      await this.contractsRepository.create(createContractDTO);
+    const newContract = this.contractsRepository.create(createContractDTO);
     newContract.created_by = currentUserID;
     newContract.lender_id = currentUserID;
     return await this.contractsRepository.save(newContract);
@@ -77,10 +76,10 @@ export class ContractsService {
   }
 
   async getAllContracts(
-    page: number = 1,
-    limit: number = 10,
     currentUserID: number,
     currentUserType: UserType,
+    page: number = 1,
+    limit: number = 10,
   ) {
     const skip = (page - 1) * limit;
 

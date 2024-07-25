@@ -133,10 +133,10 @@ export class CashKicksController {
       );
     } else {
       return await this.cashKicksService.getAllCashKicks(
-        page,
-        limit,
         currentUserID,
         currentUserType,
+        page,
+        limit,
       );
     }
   }
