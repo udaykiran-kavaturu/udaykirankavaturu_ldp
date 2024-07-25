@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config';
 
 import * as compression from 'compression';
 
+import * as compression from 'compression';
+
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './utils/exception-handler';
 
@@ -12,7 +14,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const httpAdapter = app.get(HttpAdapterHost);
   const configService = app.get(ConfigService);
-
   app.use(compression());
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
   app.useGlobalPipes(
